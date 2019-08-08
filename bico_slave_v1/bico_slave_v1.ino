@@ -72,16 +72,17 @@ bool check_presence() {
   return digitalRead(pin_mouvement);
 }
 
-int dernier_changement_etat = 0;
-int allumage_led_rouge = 0;
-int allumage_yeux = 0;
+unsigned long dernier_changement_etat = 0;
+unsigned long allumage_led_rouge = 0;
+unsigned long allumage_yeux = 0;
+
 int etat = ETAT_ETEINT;
 int compteur_yeux = 0;
 
 void loop()
 {
-  int maintenant = millis();
-  if(maintenant - dernier_changement_etat < 2000) return;
+  unsigned long maintenant = millis();
+  if( (maintenant - dernier_changement_etat) < 2000) return;
 
   int statut = check_rfid();
   if(statut == RFID_CONNU)
@@ -116,7 +117,7 @@ void loop()
   {
     Serial.println("MOUVEMENT");
     
-    if(maintenant - allumage_yeux > 1000)
+    if( (maintenant - allumage_yeux) > 1000)
     {
       allumage_yeux = maintenant;
       compteur_yeux += 1;
